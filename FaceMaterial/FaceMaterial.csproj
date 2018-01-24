@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{49966F06-5230-41B5-9DF2-BBAC60AAB263}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FaceMaterial</RootNamespace>
+    <AssemblyName>FaceMaterial</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FaceLogger">
+      <HintPath>..\FaceLogger\bin\Debug\FaceLogger.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FaceMaterialPlugin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\FaceMaterialPlugin\bin\Release\FaceMaterialPlugin.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Button.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CloseButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SmoothLine.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CircleBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FloatingButtonMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="IconTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IconTextBox.Designer.cs">
+      <DependentUpon>IconTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImageButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MultiCircleBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Patter\FloatingMenu.cs" />
+    <Compile Include="Patter\FormManager.cs" />
+    <Compile Include="Patter\ICodeDesigner.cs" />
+    <Compile Include="Processbar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PromptedTextBoxBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\Direction.cs" />
+    <Compile Include="Subtems\MultiCircleBarItem.cs" />
+    <Compile Include="TextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TextBox.Designer.cs">
+      <DependentUpon>TextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToggleButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="IconTextBox.resx">
+      <DependentUpon>IconTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextBox.resx">
+      <DependentUpon>TextBox.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_close_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_fullscreen_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_fullscreen_exit_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_mini_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_delete_forever.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_create_new_folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_computer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\ic_folder.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
