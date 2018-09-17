@@ -3,30 +3,46 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace FaceMaterial.UI {
-    public class Processbar : Control {
+    public class Processbar : Control
+    {
+        private event Action<Processbar, double> ValueChange;
+
+        private Point _textloc;
+        private double _deltaValue;
+        private Rectangle _processRect;
+        private string _text;
 
         #region Properties
-
-        private double _MaxValue = 100;
+        private double _maxValue = 100;
         public double MaxValue {
-            get => _MaxValue;
+            get => _maxValue;
             set {
                 if (MaxValue < Value)
-                    _MaxValue = Value;
+                {
+                    _maxValue = Value;
+                }
                 else
-                    _MaxValue = value;
+                {
+                    _maxValue = value;
+                }
+                UpdateDeltaValue();
                 Invalidate();
             }
         }
 
-        private double _MinValue = 0;
+        private double _minValue = 0;
         public double MinValue {
-            get => _MinValue;
-            set  {
+            get => _minValue;
+            set {
                 if (MinValue > Value)
-                    _MinValue = Value;
+                {
+                    _minValue = Value;
+                }
                 else
-                    _MinValue = value;
+                {
+                    _minValue = value;
+                }
+                UpdateDeltaValue();
                 Invalidate();
             }
         }
@@ -40,6 +56,7 @@ namespace FaceMaterial.UI {
                 if (Value > MaxValue)
                     throw new IndexOutOfRangeException();
                 _Value = value;
+                ValueChange?.Invoke(this, value);
                 Invalidate();
             }
         }
@@ -68,60 +85,56 @@ namespace FaceMaterial.UI {
         private SolidBrush BrushProcess;
         #endregion
 
-        public Processbar() {
-            InitializeValues();
-            InitializeStyle();
-            InitializeEvents();
-        }
+        public Processbar()
+        {
+            ControlStyles styles = ControlStyles.ResizeRedraw
+                                | ControlStyles.SupportsTransparentBackColor
+                                | ControlStyles.UserPaint;
+            SetStyle(styles, true);
 
-        private void InitializeValues() {
             MaxValue = 100;
             MinValue = 0;
             Value = 20;
             ValueVisible = false;
         }
 
-        private void InitializeStyle() {
-            ControlStyles styles = ControlStyles.ResizeRedraw
-                                 | ControlStyles.SupportsTransparentBackColor
-                                 | ControlStyles.UserPaint;
-            SetStyle(styles, true);
-        }
-
-        private void InitializeEvents() {
-            Paint += Processbar_Paint;
-
-            #region EventHelper
-            void Processbar_Paint(object sender, PaintEventArgs e) {
-                Graphics graphics = e.Graphics;
-                Rectangle rect = Bounds;
-
-                double val = MaxValue - MinValue;
-                double step = rect.Width / val;
-
-                double width = (Value - MinValue) * step;
-
-                Point pointProcess = Point.Empty;
-                Size sizeProcess = new Size((int) width, rect.Height);
-                Rectangle rectProcess = new Rectangle(pointProcess, sizeProcess);
-
-                if (BrushProcess == null)
-                    return;
-
-                graphics.FillRectangle(BrushProcess, rectProcess);
-                if (ValueVisible) {
-                    double textValue = 100 * Value / val;
-                    string text = $"{Math.Round(textValue, 1)}%";
-
-                    Size sizeText = TextRenderer.MeasureText(text, Font);
-                    int textX = (Width - sizeText.Width) / 2;
-                    int textY = (Height - sizeText.Height) / 2;
-                    Point textLoc = new Point(textX, textY);
-
-                    TextRenderer.DrawText(graphics, text, Font, textLoc, ForeColor);
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            Graphics graphics = e.Graphics;
+            if (BrushProcess != null){ 
+                graphics.FillRectangle(BrushProcess, _processRect);
+                if (ValueVisible)
+                {
+                    TextRenderer.DrawText(graphics, _text, Font, _textloc, ForeColor);
                 }
             }
-            #endregion
+        }
+
+        protected override void OnSizeChanged(EventArgs e) {
+            UpdateRect();
+        }
+        private void UpdateRect() {
+            double step = Width / _deltaValue;
+            double width = (Value - MinValue) * step;
+            Point topcorner = Point.Empty;
+            Size progressSize = new Size((int) width, Height);
+            _processRect = new Rectangle(Point.Empty, progressSize);
+            UpdateText();
+        }
+
+        private void UpdateDeltaValue() {
+            _deltaValue = MaxValue - MinValue;
+            UpdateText();
+        }
+
+        private void UpdateText() {
+            double textValue = 100 * Value / _deltaValue;
+            _text = $"{Math.Round(textValue, 1)}%";
+
+            Size sizeText = TextRenderer.MeasureText(_text, Font);
+            int textX = (Width - sizeText.Width) / 2;
+            int textY = (Height - sizeText.Height) / 2;
+            _textloc = new Point(textX, textY);
         }
     }
 }
